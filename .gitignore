@@ -12,4 +12,8 @@ env/
 node_modules/
 
 # Prometheus data
-prometheus-data/
+prometheus-data/ 
+# Environment files 
+.env 
+*.env 
+.env.local 
