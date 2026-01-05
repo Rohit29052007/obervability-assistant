@@ -1,0 +1,15 @@
+# Environment variables
+.env
+*.env
+.env.local
+.env.*.local
+
+# Python virtual environment
+venv/
+env/
+
+# Node modules
+node_modules/
+
+# Prometheus data
+prometheus-data/
