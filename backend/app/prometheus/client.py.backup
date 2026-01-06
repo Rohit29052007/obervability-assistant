@@ -1,0 +1,60 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+import requests
+import json
+from typing import Dict, List, Optional, Any
+from datetime import datetime, timedelta
+import logging
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+app = FastAPI(
+    title="Observability Assistant API",
+    description="AI-powered observability assistant for Prometheus",
+    version="1.0.0"
+)
+
+# Configure CORS - VERY IMPORTANT for frontend connection
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins - change in production!
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
+# Include your API routes
+app.include_router(endpoints.router)
+
+@app.get("/")
+async def root():
+    return {
+        "message": "Observability Assistant Backend is running",
+        "version": "1.0.0",
+        "endpoints": {
+            "health": "/api/health",
+            "test_prometheus": "/api/test-prometheus",
+            "translate": "/api/translate (POST)",
+            "execute": "/api/execute?promql=YOUR_QUERY",
+            "metrics": "/api/metrics",
+            "docs": "/docs"
+        }
+    }
+
+@app.get("/info")
+async def info():
+    """Get API information"""
+    return {
+        "name": "Observability Assistant",
+        "description": "Convert natural language to PromQL queries",
+        "team": ["You", "Member 2", "Member 3"],
+        "status": "operational"
+    }
+
+# For development
+if __name__ == "__main__":
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
